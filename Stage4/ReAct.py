@@ -68,13 +68,13 @@ class ReActAgent:
         action = action_match.group(1).strip() if action_match else None
         return thought, action
 
-    def _parse_action(self, action_text: str):
-        """解析Action字符串，提取工具名称和输入。
-        """
-        match = re.match(r"(\w+)\[(.*)\]", action_text, re.DOTALL)
-        if match:
-            return match.group(1), match.group(2)
-        return None, None
+if __name__ == '__main__':
+    llm = HelloAgentsLLM()
+    tool_executor = ToolExecutor()
+    tool_executor.registerTool(name = "Search",description = "一个网页搜索引擎，当你需要回答关于时事、事实，应当使用此工具",func=search)
+
+    agent = ReActAgent(llm_client=llm,tool_executor=tool_executor)
+    agent.run("华为最新的手机是哪一款？它主要的卖点是什么？")
 
 
 
